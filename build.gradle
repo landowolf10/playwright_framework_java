@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'org.testng', name: 'testng', version: '7.10.2'
+    implementation group: 'com.microsoft.playwright', name: 'playwright', version: '1.46.0'
+}
+
+test {
+    useTestNG() {
+        testLogging.showStandardStreams = true
+        useDefaultListeners = true
+        parallel = true
+        if (project.hasProperty('login_test')) { suites './src/test/resources/suites/login_test.xml' }
+        if (project.hasProperty('checkout_test')) { suites './src/test/resources/suites/checkout_test.xml' }
+        if (project.hasProperty('all_tests')) { suites './src/test/resources/suites/all_tests.xml' }
+    }
+}
