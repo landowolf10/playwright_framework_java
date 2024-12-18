@@ -12,9 +12,9 @@ public class SetUp {
         Playwright playwright = Playwright.create();
         playwright.selectors().setTestIdAttribute("id");
         if (selectedBrowser.equalsIgnoreCase("chrome"))
-            browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
         else
-            browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(true));
 
         BrowserContext context = browser.newContext();
         page = context.newPage();
