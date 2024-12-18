@@ -1,13 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Parallel Test Suite" parallel="tests" thread-count="2">
     <test name="Chrome Test 1">
-        <parameter name="browser" value="chrome"/>
+        <parameter name="selectedBrowser" value="chrome"/>
         <classes>
             <class name="com.lando.tests.CheckoutTest"/>
         </classes>
     </test>
     <test name="Firefox Test 1">
-        <parameter name="browser" value="firefox"/>
+        <parameter name="selectedBrowser" value="firefox"/>
         <classes>
             <class name="com.lando.tests.CheckoutTest"/>
         </classes>

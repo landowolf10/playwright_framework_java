@@ -7,7 +7,7 @@ import com.microsoft.playwright.options.AriaRole;
 import java.util.regex.Pattern;
 
 public class DashboardLocators {
-    private Page page;
+    private final Page page;
 
     public DashboardLocators(Page page) {
         this.page = page;

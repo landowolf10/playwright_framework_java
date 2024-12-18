@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:17-buster-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Run Playwright Tests
+          command: |
+            chmod +x gradlew
+             ./gradlew clean test -Pcheckout_test
+
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - build

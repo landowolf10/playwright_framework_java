@@ -1,32 +1,27 @@
 package com.lando.tests;
 
-import org.example.locators.LoginLocators;
-import org.example.pages.LoginPage;
-import org.example.utils.SetUp;
+import org.example.utils.Fixture;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
-
-public class LoginTest {
-    SetUp setUp;
-    LoginPage loginPage;
-
-    @BeforeMethod
-    @Parameters("selectedBrowser")
-    void setUp(String selectedBrowser) {
-        setUp = new SetUp();
-        setUp.setUp(selectedBrowser);
-        loginPage = new LoginPage(setUp.getPageContext());
-    }
-
+public class LoginTest extends Fixture {
     @Test
     void successfulLoginTest() {
-        loginPage.navigateToSauceLab();
-        loginPage.writeValidCredentials("standard_user", "secret_sauce");
+        loginPage.writeCredentials("standard_user", "secret_sauce");
         loginPage.clickLoginButton();
+
+        Assert.assertTrue(loginPage.getValidLoginElements().get("cart_icon").isVisible());
+        Assert.assertTrue(loginPage.getValidLoginElements().get("drop_down").isVisible());
     }
 
-    @AfterClass
-    public void tearDown() {
-        setUp.tearDown();
+    @Test(dependsOnMethods = "successfulLoginTest")
+    public void invalidLoginTest() {
+        setUp.getPageContext().navigate("https://www.saucedemo.com");
+        loginPage.writeCredentials("standard_use", "secret_sauce");
+        loginPage.clickLoginButton();
+        Assert.assertTrue(loginPage.getInvalidLoginElements().get("login_button"));
+        Assert.assertTrue(loginPage.getInvalidLoginElements().get("error_message"));
+        Assert.assertEquals(loginPage.getErrorMessageText(), "Epic sadface: Username and password do not match " +
+                "any user in this service");
     }
 }

@@ -4,25 +4,18 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import org.example.locators.DashboardLocators;
 import org.example.locators.LoginLocators;
-
 import java.util.HashMap;
 
 public class LoginPage {
-    private final Page page;
     LoginLocators loginLocators;
     DashboardLocators dashboardLocators;
 
     public LoginPage(Page page) {
-        this.page = page;
         loginLocators = new LoginLocators(page);
         dashboardLocators = new DashboardLocators(page);
     }
 
-    public void navigateToSauceLab() {
-        page.navigate("https://www.saucedemo.com");
-    }
-
-    public void writeValidCredentials(String email, String password) {
+    public void writeCredentials(String email, String password) {
         loginLocators.userTextbox().fill(email);
         loginLocators.passwordTextbox().fill(password);
     }
@@ -38,5 +31,19 @@ public class LoginPage {
         presentElements.put("drop_down", dashboardLocators.sortDropDown());
 
         return presentElements;
+    }
+
+    public HashMap<String, Boolean> getInvalidLoginElements()
+    {
+        HashMap<String, Boolean> presentElements = new HashMap<>();
+
+        presentElements.put("login_button", loginLocators.loginButton().isVisible());
+        presentElements.put("error_message", loginLocators.errorMessage().isVisible());
+
+        return presentElements;
+    }
+
+    public String getErrorMessageText() {
+        return loginLocators.errorMessage().textContent();
     }
 }
